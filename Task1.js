@@ -1,49 +1,43 @@
-var http = require('http')
-var fs = require('fs')
+/*Create server 
+has some endpoints
+  
+login page
+signup page
+home page 
+profile page
+ */
 
-http.createServer(function(req, res){
-    var html = fs.readFileSync('index.html', 'utf8')	
-	if(req.url==='/'){
-		res.writeHead(200, {'content-type': "text/html"})
-        html = html.replace('{message}', "Home Page")
-  		res.write(html)
-	}
-	else if(req.url==='/login' && req.method==='GET'){
-		// res.writeHead(200, {'content-type': "application/json"})
-		res.writeHead(200, {'content-type': "text/html"})
-        html = html.replace('{message}', "Login Page")
-        res.write(html)
-	}
-    else if(req.url==='/login' && req.method==='POST'){
-		res.writeHead(200, {'content-type': "text/html"})
-        html = html.replace('{message}', "Login Page Post")
-        res.write(html)
-	}
-    else if(req.url==='/register' && req.method==='GET' ){
-        res.writeHead(201, {'content-type': "text/html"})
-        html = html.replace('{message}', "Register Page")
-        res.write(html)
-    }
-	else if(req.url==='/register' && req.method==='POST' ){
-		res.writeHead(201, {'content-type': "text/html"})
-        html = html.replace('{message}', "Register Page Post")
-        res.write(html)
-	}
-	else if (req.url==='/profile' && req.method==='GET'){
-		res.writeHead(201, {'content-type': "text/html"})
-        html = html.replace('{message}', "Profile Page")
-        res.write(html)
-	}
-	else if (req.url==='/profile' && req.method==='POST'){
-        res.writeHead(200, {'content-type': "text/html"})
-        html = html.replace('{message}', "Profile Page Post")
-        res.write(html)
-    }
-	else{
-        res.writeHead(404)
-        html = html.replace('{message}', "Not Found")
-        res.write(html)
-	}
-    res.end()
+// Using URL ,HTTP and Routing
+var express = require('express');
+var app = express();
 
-}).listen(3000)
+app.get('/', function(req, res) {
+  // Home Page
+  res.sendFile(__dirname + '/Home.html');
+});
+
+app.get('/Login', function(req, res) {
+  // Login Page
+  res.sendFile(__dirname + '/Login.html');
+});
+
+app.get('/SignUp', function(req, res) {
+  // SignUp Page
+  res.sendFile(__dirname + '/SignUp.html');
+});
+
+app.get('/Profile', function(req, res) {
+  // Profile Page
+  res.sendFile(__dirname + '/Profile.html');
+});
+
+// 404 Not Found
+app.use(function(req, res) {
+  res.status(404).send('<h1>404 Not Found</h1>');
+});
+
+app.listen(4000, function() {
+  console.log('Server is listening on port 4000');
+});
+
+
